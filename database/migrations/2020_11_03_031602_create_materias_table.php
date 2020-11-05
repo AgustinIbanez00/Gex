@@ -6,28 +6,28 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateMateriasTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-			Schema::create('materias', function (Blueprint $table) {
-				$table->id();
-				$table->timestamps();
-				$table->string('nombre',100);
-				$table->integer('estado')->default(1);
-			});
-    }
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
+		Schema::create('materias', function (Blueprint $table) {
+			$table->id();
+			$table->string('nombre', 100);
+			$table->integer('estado')->default(1);
+			$table->timestamps();
+		});
+	}
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-			Schema::dropIfExists('materias');
-    }
+	/**
+	 * Reverse the migrations.
+	 *
+	 * @return void
+	 */
+	public function down()
+	{
+		Schema::dropIfExists('materias');
+	}
 }
