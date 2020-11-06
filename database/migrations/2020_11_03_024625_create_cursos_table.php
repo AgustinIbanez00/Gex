@@ -15,7 +15,7 @@ class CreateCursosTable extends Migration
 	{
 		Schema::create('cursos', function (Blueprint $table) {
 			$table->id();
-			$table->string('comision', 2);
+			$table->string('comision', 2)->nullable();
 			$table->integer("cuatrimestre")->nullable();
 			$table->integer("ciclo_lectivo")->nullable();
 			$table->integer("cant_alumnos")->nullable();

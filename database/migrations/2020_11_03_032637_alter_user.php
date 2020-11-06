@@ -6,37 +6,30 @@ use Illuminate\Support\Facades\Schema;
 
 class AlterUser extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string("lastName");
-            $table->bigInteger("dni")->uniqid();
-            $table->date("birth_date");
-            $table->string("observation");
-            $table->integer("type");
-            $table->integer("state");
-        });
-    }
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
+		Schema::table('users', function (Blueprint $table) {
+			$table->bigInteger("dni")->uniqid();
+			$table->string("last_name")->nullable();
+			$table->date("birth_date")->nullable();
+			$table->string("observation")->nullable();
+			$table->integer("type")->nullable();
+			$table->integer("state")->default(1);
+		});
+	}
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn("lastName");
-            $table->dropColumn("dni");
-            $table->dropColumn("birt_date");
-            $table->dropColumn("observation");
-            $table->dropColumn("type");
-            $table->dropColumn("state");
-        });
-    }
+	/**
+	 * Reverse the migrations.
+	 *
+	 * @return void
+	 */
+	public function down()
+	{
+		Schema::dropIfExists('users');
+	}
 }

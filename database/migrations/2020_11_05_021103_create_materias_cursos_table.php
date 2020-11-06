@@ -16,11 +16,12 @@ class CreateMateriasCursosTable extends Migration
 		Schema::create('materias_cursos', function (Blueprint $table) {
 			$table->id();
 			$table->unsignedBigInteger('curso_id')->nullable();
-			$table->unsignedBigInteger('materia_id')->nullable();
 			$table->foreign('curso_id')->references('id')->on('cursos');
+			$table->unsignedBigInteger('materia_id')->nullable();
 			$table->foreign('materia_id')->references('id')->on('materias');
-			$table->date('fecha_inicio', 0);
-			$table->date('fecha_fin', 0);
+			
+			$table->date('fecha_inicio', 0)->nullable();
+			$table->date('fecha_fin', 0)->nullable();
 			$table->timestamps();
 		});
 	}
