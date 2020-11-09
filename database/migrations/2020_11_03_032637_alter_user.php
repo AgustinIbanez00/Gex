@@ -14,7 +14,7 @@ class AlterUser extends Migration
 	public function up()
 	{
 		Schema::table('users', function (Blueprint $table) {
-			$table->bigInteger("dni")->uniqid()->nullable();;
+			$table->bigInteger("dni")->uniqid()->nullable();
 			$table->string("last_name")->nullable();
 			$table->date("birth_date")->nullable();
 			$table->string("observation")->nullable();
