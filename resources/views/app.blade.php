@@ -13,7 +13,8 @@
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
-        <!-- Scripts -->
+				<!-- Scripts -->
+				<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>-
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
         <script src="{{ mix('js/app.js') }}" defer></script>
     </head>
