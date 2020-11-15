@@ -1,13 +1,13 @@
 <template>
-	<div>
-		aqui hay pito
-	</div>
+  <div class="container">
+		CRAZY
+  </div>
 </template>
  
 <script>
-    export default {
-        mounted() {
-            console.log('Component mounted.')
-        }
-    }
+export default {
+  mounted() {
+    console.log("Component mounted.");
+  },
+};
 </script>

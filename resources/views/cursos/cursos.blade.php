@@ -13,9 +13,10 @@
 			<div id="app" class="content">
 				@yield('content')
 				<cursos-component></cursos-component>
+				<nav-component></nav-component>
 			</div>
 		</body>
-		<script src="{{asset('js/cursos.js')}}"></script>
-</html>
+		<script src="{{asset('js/app.js')}}"></script>
+	</html>
 
 
