@@ -1918,6 +1918,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['on']
 });
@@ -19631,7 +19632,7 @@ var render = function() {
               ],
               staticClass: "text-sm text-gray-600"
             },
-            [_vm._t("default")],
+            [_c("p", [_vm._v("pito")]), _vm._v(" "), _vm._t("default")],
             2
           )
         ]
