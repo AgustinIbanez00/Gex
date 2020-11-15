@@ -14,7 +14,8 @@ class CursoController extends Controller
      */
     public function index()
     {
-        //
+
+        
     }
 
     /**
