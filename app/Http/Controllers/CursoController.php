@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Curso;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class CursoController extends Controller
 {
@@ -24,7 +25,7 @@ class CursoController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -35,7 +36,48 @@ class CursoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $date = Carbon::now()->toDateTimeString();
+
+        if($request->fecha > $date){
+            return response()->json([
+                'data' => $curso,
+                'error' => 'La fecha del curso no puede ser mayor a la fecha actual.'
+                ]);
+        }
+
+        
+        if($request->cuatrimestre > 2 || $request->cuatrimestre < 1) {
+            return response()->json([
+                'data' => $curso,
+                'error' => 'El valor del cuatrimestre es inválido.'
+            ]);
+        }
+
+        if($request->ciclo_lectivo > now()->year){
+            return response()->json([
+                'data' => $curso,
+                'error' => 'El valor del ciclo lectivo es inválido.'
+            ]);
+        }
+
+        if($request->cant_alumnos <= 0){
+            return response()->json([
+                'data' => $curso,
+                'error' => 'No puede ingresar una cantidad de alumnos negativa.'
+            ]);
+        }
+
+        $curso = new Curso();
+        $curso->comision = $request->$comision;
+        $curso->cuatrimestre = $request->cuatrimestre;
+        $curso->ciclo_lectivo = $request->ciclo_lectivo;
+        $curso->cant_alumnos = $request->cant_alumnos;
+        $curso->save();
+
+        return response()->json([
+            'data' => $curso,
+            'error' => null
+        ]);
     }
 
     /**
@@ -69,7 +111,12 @@ class CursoController extends Controller
      */
     public function update(Request $request, Curso $curso)
     {
-        //
+        $curso = Curso::find($curso->$id);
+        $curso->comision = $request->$comision;
+        $curso->cuatrimestre = $request->cuatrimestre;
+        $curso->ciclo_lectivo = $request->ciclo_lectivo;
+        $curso->cant_alumnos = $request->cant_alumnos;
+        $curso->save();
     }
 
     /**
@@ -80,6 +127,7 @@ class CursoController extends Controller
      */
     public function destroy(Curso $curso)
     {
-        //
+        $curso = Curso::find($curso->$id);
+        $curso->delete();
     }
 }
