@@ -5,7 +5,7 @@
     "tasks": [
         {
             "label": "echo",
-            "type": "process",
+            "type": "shell",
             "command": "php artisan serve",
             "problemMatcher": [],
             "group": {

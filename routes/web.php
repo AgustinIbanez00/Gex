@@ -34,9 +34,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/home', function () {
     return view('home');
 })->name('home');
 
-Route::resource('cursos', CursoController::class)->only([
-    'index', 'show' 
-])->middleware('auth');
+Route::resource('cursos', CursoController::class)->middleware('auth');
 
 Route::resource('examenes', ExamenController::class)->middleware('auth');
 
