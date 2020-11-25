@@ -17,12 +17,8 @@ class CreateMesasTable extends Migration
 			$table->id();
 			$table->unsignedBigInteger('profesor_id')->nullable();
 			$table->foreign('profesor_id')->references('id')->on('users');
-			$table->unsignedBigInteger('alumno_id')->nullable();
-			$table->foreign('alumno_id')->references('id')->on('users');
 			$table->unsignedBigInteger('examen_id')->nullable();
 			$table->foreign('examen_id')->references('id')->on('examenes');
-			
-
 			$table->dateTime('fecha', 0)->nullable();
 			$table->boolean("mostrar_respuestas")->nullable();
 			$table->timestamps();

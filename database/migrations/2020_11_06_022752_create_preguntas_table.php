@@ -17,7 +17,6 @@ class CreatePreguntasTable extends Migration
 			$table->id();
 			$table->unsignedBigInteger('examen_id')->nullable();
 			$table->foreign('examen_id')->references('id')->on('examenes');
-
 			$table->text('valor')->nullable();
 			$table->integer("tipo")->nullable();
 			$table->integer("puntos")->default(1);

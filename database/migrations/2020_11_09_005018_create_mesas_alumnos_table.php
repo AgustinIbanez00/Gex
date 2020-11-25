@@ -18,8 +18,7 @@ class CreateMesasAlumnosTable extends Migration
 					$table->unsignedBigInteger('alumno_id')->nullable();
 					$table->foreign("alumno_id")->references("id")->on("users");
 					$table->unsignedBigInteger('mesa_id')->nullable();
-					$table->foreign("mesa_id")->references("id")->on("mesas");
-		
+					$table->foreign("mesa_id")->references("id")->on("mesas");	
 					$table->string("nota")->nullable();			
 					$table->boolean("estado")->default(1);
 					$table->timestamps();

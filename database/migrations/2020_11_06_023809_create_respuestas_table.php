@@ -16,9 +16,9 @@ class CreateRespuestasTable extends Migration
         Schema::create('respuestas', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('pregunta_id')->nullable();
+            $table->foreign("pregunta_id")->references("id")->on("preguntas");
             $table->string("valor")->nullable();
             $table->boolean("correcto")->nullable();
-            $table->foreign("pregunta_id")->references("id")->on("preguntas");
             $table->timestamps();
         });
     }

@@ -19,7 +19,6 @@ class CreateExamenesTable extends Migration
 			$table->foreign("curso_id")->references("id")->on("cursos");
 			$table->unsignedBigInteger('materia_id')->nullable();
 			$table->foreign("materia_id")->references("id")->on("materias");
-
 			$table->string("nombre")->nullable();
 			$table->dateTime("fecha_creacion")->nullable();
 			$table->integer("min_tardanza")->nullable();

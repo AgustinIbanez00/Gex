@@ -19,7 +19,6 @@ class CreateRespuestasAlumnosTable extends Migration
 					$table->foreign("alumno_id")->references("id")->on("users");
 					$table->unsignedBigInteger('respuesta_id')->nullable();
 					$table->foreign("respuesta_id")->references("id")->on("respuestas");
-		
 					$table->string("valor")->nullable();
 					$table->boolean("estado")->default(1);
 					$table->timestamps();
