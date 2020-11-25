@@ -1,22 +1,18 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-		<head>
-				<meta charset="utf-8">
-				<meta name="viewport" content="width=device-width, initial-scale=1">
+<x-app-layout>
+	<x-slot name="header">
+			<h2 class="font-semibold text-xl text-gray-800 leading-tight">
+				Cursos
+			</h2>				
+	</x-slot>
 
-				<title>Cursos</title>
-
-				<!-- Fonts -->
-				<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-		</head>
-		<body class="antialiased">
-			<div id="app" class="content">
-				@yield('content')
-				<cursos-component></cursos-component>
-				<nav-component></nav-component>
+	<x-slot name="body">
+		<div class="py-2 px-2">
+			@yield('content')
+			<div class="mx-auto">
+				<div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-10">
+					<cursos-component></cursos-component>
+				</div>
 			</div>
-		</body>
-		<script src="{{asset('js/app.js')}}"></script>
-	</html>
-
-
+		</div>			
+	</x-slot>
+</x-app-layout>
