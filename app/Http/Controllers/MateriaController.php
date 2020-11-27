@@ -24,7 +24,7 @@ class MateriaController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -35,7 +35,25 @@ class MateriaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if(empty($request->nombre)) return response()->json([
+            'data' => $curso,
+            'error' => 'Es requerido el nombre de la materia.'
+        ]);
+
+        if(!isset($request->nombre)) return response()->json([
+            'data' => $curso,
+            'error' => 'Es requerido que la materia contenga un estado.'
+        ]);
+
+        $materia = new Materia();
+        $materia->nombre = $request->nombre;
+        $materia->estado = $request->estado;
+        $materia->save();
+        
+        return response()->json([
+            'data' => $materia,
+            'error' => null
+        ]);
     }
 
     /**
@@ -69,7 +87,23 @@ class MateriaController extends Controller
      */
     public function update(Request $request, Materia $materia)
     {
-        //
+        if(empty($request->nombre)) return response()->json([
+            'data' => $curso,
+            'error' => 'Es requerido el nombre de la materia.'
+        ]);
+
+        if(!isset($request->estado)) return response()->json([
+            'data' => $curso,
+            'error' => 'Es requerido que la materia contenga un estado.'
+        ]);
+
+        $materia->nombre = $request->nombre;
+        $materia->estado = $request->estado;
+
+        return response()->json([
+            'data' => $materia,
+            'error' => null
+        ]);
     }
 
     /**
@@ -80,6 +114,16 @@ class MateriaController extends Controller
      */
     public function destroy(Materia $materia)
     {
-        //
+        if(!isset($materia)) return response()->json([
+            'data' => $materia,
+            'error' => 'No se seleccionó una materia para eliminar.'
+        ]);
+
+        $materia->delete();
+
+        return response()->json([
+            'data' => $materia,
+            'error' => null
+        ]);
     }
 }
