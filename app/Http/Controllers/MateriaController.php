@@ -40,14 +40,9 @@ class MateriaController extends Controller
             'error' => 'Es requerido el nombre de la materia.'
         ]);
 
-        if(!isset($request->nombre)) return response()->json([
-            'data' => $curso,
-            'error' => 'Es requerido que la materia contenga un estado.'
-        ]);
-
         $materia = new Materia();
         $materia->nombre = $request->nombre;
-        $materia->estado = $request->estado;
+        $materia->estado = 1;
         $materia->save();
         
         return response()->json([
@@ -92,10 +87,16 @@ class MateriaController extends Controller
             'error' => 'Es requerido el nombre de la materia.'
         ]);
 
-        if(!isset($request->estado)) return response()->json([
+        if(!is_numeric($request->estado)) return response()->json([
             'data' => $curso,
-            'error' => 'Es requerido que la materia contenga un estado.'
+            'error' => 'El estado debe ser un valor entre 0 y 1.'
         ]);
+
+        if($request->estado > 1 || $request->estado < 0) return response()->json([
+            'data' => $materia,
+            'error' => 'El estado debe ser un valor entre 0 y 1.'
+        ]);
+
 
         $materia->nombre = $request->nombre;
         $materia->estado = $request->estado;
