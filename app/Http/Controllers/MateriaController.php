@@ -10,29 +10,20 @@ class MateriaController extends Controller
 {
     public function index()
     {
-    	return view("materias.materias");
+        return view("materias.materias");
     }
 
     public function store(Request $request)
     {
-        if(empty($request->nombre)) return response()->json([
-            'data' => null,
-            'error' => 'Es requerido el nombre de la materia.'
-        ]);
-
-        if(Materia::where('nombre', $request->nombre) != null) {
-            return response()->json([
-                'data' => null,
-                'error' => "",
-                'mensaje' => "La materia ya existe."
-            ]);
-        }
+        if (empty($request->nombre)) return $this->Error("El nombre de una materia no puede estar vacío.");
+        $existe = Materia::where('nombre', $request->nombre);
+        if ($existe != null) return $this->Error("La matería ya existe.", $existe);
 
         $materia = new Materia();
         $materia->nombre = $request->nombre;
         $materia->estado = 1;
         $materia->save();
-        
+
         return response()->json([
             'data' => $materia,
             'error' => null
@@ -43,16 +34,18 @@ class MateriaController extends Controller
     {
         $materia = Materia::find($id);
 
-        if(!isset($materia)) return $this->Error($materia, self::ERROR_DATABASE, "La materia no existe");
+        if (!$materia) return $this->Error($materia, self::ERROR_DATABASE, "La materia no existe");
         else return $this->Ok($materia);
     }
 
-    public function destroy(Materia $materia)
+    public function destroy($id)
     {
-        if(!isset($materia)) $this->Error(null, self::ERROR_DATABASE, "No se encontró la materia.");
+        $materia = Materia::find($id);
+        if (!$materia) return $this->Error(null, self::ERROR_DATABASE, "No se encontró la materia.");
+    
+        $materia->estado = 0;
+        $materia->save();
 
-        $materia->delete();
-
-        $this->Ok($materia, "La materia se eliminó correctamente.");
+        return $this->Ok($materia, "La materia se eliminó correctamente.");
     }
 }

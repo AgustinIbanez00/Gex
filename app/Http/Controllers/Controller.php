@@ -10,7 +10,7 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     //Errores
-    public function Error($data, $code, $text)
+    public function Error($text, $code = self::ERROR_DATABASE, $data = null)
     {
         return response()->json([
             'data' => $data,
@@ -27,8 +27,11 @@ class Controller extends BaseController
         ]);
     }
 
-
+    //ERRORES
     const ERROR_DATABASE = 1;    
+
+
+    
 
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 }
