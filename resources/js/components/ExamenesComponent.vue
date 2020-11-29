@@ -3,7 +3,7 @@
     <table class="table table-bordered table-hover">
       <thead class="thead-dark">
         <tr>
-					<th></th>
+					<th><i class="fas fa-clipboard-check"></i></th>
           <th>materia</th>
           <th>título</th>
           <th>fecha</th>
@@ -15,7 +15,7 @@
       </thead>
       <tbody>
         <tr v-for="examen in examenes">
-          <td width="1%"><i class="far fa-clipboard"></i></td>
+          <td width="1%"><i class="fas fa-clipboard-check"></i></td>
 					<td>{{examen.materia}}</td>
 					<td>{{examen.nombre}}</td>
 					<td>{{examen.fecha_creacion}}</td>

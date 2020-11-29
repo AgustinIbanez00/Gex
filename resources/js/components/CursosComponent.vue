@@ -3,7 +3,7 @@
     <table class="table table-bordered table-hover">
       <thead class="thead-dark">
         <tr>
-					<th></th>
+					<th><i class="far fa-calendar-alt"></i></th>
           <th>comisión</th>
           <th>cuatrimestre</th>
           <th>ciclo lectivo</th>

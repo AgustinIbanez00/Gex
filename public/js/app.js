@@ -2099,29 +2099,172 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      materias: [{
-        id: 0,
-        nombre: "WEB II",
-        estado: 1
-      }, {
-        id: 1,
-        nombre: "Android",
-        estado: 1
-      }, {
-        id: 2,
-        nombre: "Redes",
-        estado: 1
-      }]
+      modo: 0,
+      modos: {
+        materias: 0,
+        agregar: 1,
+        editar: 2
+      },
+      materias: [],
+      cargando_materias: false,
+      cambios_materias: true,
+      ajax: false
     };
   },
   mounted: function mounted() {
-    console.log("Component mounted.");
+    var v = this;
+    v.ver_lista();
+    v.tooltip();
   },
-  methods: {}
+  methods: {
+    cargar_materias: function cargar_materias() {
+      var v = this;
+      v.cargando_materias = true;
+      axios.get('/api/materias/').then(function (res) {
+        if (!res.error) {
+          v.materias = res.data;
+          v.cambios_materias = false;
+        }
+      })["catch"](function (err) {
+        console.log(err);
+      })["finally"](function () {
+        v.cargando_materias = false;
+      });
+    },
+    agregar_materia: function agregar_materia() {
+      var v = this;
+      v.modo = v.modos.agregar;
+      v.materia = JSON.parse(JSON.stringify(materia_default));
+      Vue.nextTick(function () {
+        v.limpiar_form_error('f_materia');
+        v.tooltip();
+      });
+    },
+    ver_materia: function ver_materia(materia) {
+      var v = this;
+      v.modo = v.modos.editar;
+      v.materia = materia;
+      Vue.nextTick(function () {
+        v.limpiar_form_error('f_materia');
+        v.tooltip();
+      });
+    },
+    eliminar: function eliminar(materia) {
+      Vue.set(materia, "eliminar", true);
+      setTimeout(function () {
+        return materia.eliminar = false;
+      }, 6000);
+    },
+    ver_lista: function ver_lista() {
+      var v = this;
+      v.materias.forEach(function (m) {
+        return m.eliminar = false;
+      });
+      v.modo = v.modos.materias;
+      if (v.cambios_materias) v.cargar_materias();
+    },
+    guardar_materia: function guardar_materia() {
+      var v = this;
+      var error = 0;
+      v.limpiar_form_error('f_materia');
+
+      if (v.materia.nombre == '') {
+        v.error('f_materia_nombre');
+        error++;
+      }
+
+      if (error > 0) return;
+      v.ajax = true;
+      axios.post('/materias/', v.materia).then(function (res) {
+        v.cambios_materias = true;
+      })["catch"](function (err) {
+        console.log(err);
+      })["finally"](function () {
+        v.ajax = false;
+      });
+    },
+    tooltip: function tooltip() {
+      $('[data-toggle="tooltip"]').tooltip();
+    },
+    error: function error(input) {
+      var input = 'input[name="' + input + '"]';
+      $(input).addClass('is-invalid');
+      $(input).tooltip('enable');
+      $(input).tooltip('show');
+    },
+    limpiar_form_error: function limpiar_form_error(form) {
+      $('#' + form + ' input').removeClass('is-invalid');
+      $('#' + form + ' input').tooltip('disable');
+    }
+  }
 });
+var materia_default = {
+  nombre: ''
+};
 
 /***/ }),
 
@@ -19810,7 +19953,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", { staticClass: "thead-dark" }, [
       _c("tr", [
-        _c("th"),
+        _c("th", [_c("i", { staticClass: "far fa-calendar-alt" })]),
         _vm._v(" "),
         _c("th", [_vm._v("comisión")]),
         _vm._v(" "),
@@ -19913,7 +20056,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", { staticClass: "thead-dark" }, [
       _c("tr", [
-        _c("th"),
+        _c("th", [_c("i", { staticClass: "fas fa-clipboard-check" })]),
         _vm._v(" "),
         _c("th", [_vm._v("materia")]),
         _vm._v(" "),
@@ -19936,7 +20079,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("td", { attrs: { width: "1%" } }, [
-      _c("i", { staticClass: "far fa-clipboard" })
+      _c("i", { staticClass: "fas fa-clipboard-check" })
     ])
   },
   function() {
@@ -19978,22 +20121,297 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("table", { staticClass: "table table-bordered table-hover" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "tbody",
-        _vm._l(_vm.materias, function(materia) {
-          return _c("tr", [
-            _vm._m(1, true),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(materia.nombre))]),
-            _vm._v(" "),
-            _vm._m(2, true)
-          ])
-        }),
-        0
-      )
+    _c("header", { staticClass: "bg-white shadow", attrs: { id: "app" } }, [
+      _c("div", { staticClass: " py-6 sm:px-6  text-center" }, [
+        _c(
+          "h2",
+          { staticClass: "font-semibold text-xl text-gray-800 leading-tight" },
+          [
+            _vm.modo == _vm.modos.materias
+              ? _c("span", [
+                  _vm._v("\n      \t\t\tMaterias\n      \t\t\t"),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-outline-primary float-right",
+                      on: { click: _vm.agregar_materia }
+                    },
+                    [
+                      _c("i", { staticClass: "fas fa-plus" }),
+                      _vm._v(" Agregar")
+                    ]
+                  )
+                ])
+              : _c("span", [
+                  _vm._v(
+                    "\n      \t\t\t" +
+                      _vm._s(
+                        _vm.modo == _vm.modos.editar
+                          ? _vm.materia.nombre
+                          : "Nueva materia"
+                      ) +
+                      "\n      \t\t\t"
+                  ),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-outline-dark float-right",
+                      on: { click: _vm.ver_lista }
+                    },
+                    [
+                      _c("i", { staticClass: "fas fa-angle-left" }),
+                      _vm._v(" Materias")
+                    ]
+                  )
+                ])
+          ]
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "py-2 px-2" }, [
+      _c("div", { staticClass: "mx-auto" }, [
+        _vm.modo == _vm.modos.materias
+          ? _c(
+              "div",
+              {
+                staticClass: "bg-white overflow-hidden shadow-xl sm:rounded-lg"
+              },
+              [
+                _c(
+                  "table",
+                  { staticClass: "table table-bordered table-hover" },
+                  [
+                    _vm._m(0),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      [
+                        _vm.cargando_materias
+                          ? _c("tr", [_vm._m(1)])
+                          : _vm.materias.length == 0
+                          ? _c("tr", [
+                              _c(
+                                "td",
+                                {
+                                  staticClass: "text-center",
+                                  attrs: { colspan: "3" }
+                                },
+                                [
+                                  _vm.cargando_materias
+                                    ? _c(
+                                        "div",
+                                        { staticClass: "text-lg text-info" },
+                                        [
+                                          _c("i", {
+                                            staticClass:
+                                              "fas fa-spinner fa-pulse fa-lg"
+                                          }),
+                                          _vm._v(
+                                            " Cargando materias...\n\t\t\t\t\t\t\t\t\t"
+                                          )
+                                        ]
+                                      )
+                                    : _c("span", [_vm._v(" No posée materias")])
+                                ]
+                              )
+                            ])
+                          : _vm._l(_vm.materias, function(materia) {
+                              return _c(
+                                "tr",
+                                [
+                                  _vm._m(2, true),
+                                  _vm._v(" "),
+                                  !materia.eliminar
+                                    ? [
+                                        _c("td", [
+                                          _vm._v(_vm._s(materia.nombre))
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("td", [
+                                          _c(
+                                            "div",
+                                            { staticClass: "btn-group" },
+                                            [
+                                              _c(
+                                                "button",
+                                                {
+                                                  staticClass:
+                                                    "btn btn-primary",
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.ver_materia(
+                                                        materia
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c("i", {
+                                                    staticClass: "far fa-eye"
+                                                  })
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "button",
+                                                {
+                                                  staticClass:
+                                                    "btn btn-outline-danger",
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.eliminar(
+                                                        materia
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c("i", {
+                                                    staticClass:
+                                                      "fas fa-trash-alt"
+                                                  })
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        ])
+                                      ]
+                                    : _c(
+                                        "td",
+                                        {
+                                          staticClass:
+                                            "text-center font-weight-bold h5",
+                                          attrs: { colspan: "2" }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n\t\t\t\t\t\t\t\t\t¿Está seguro que desea "
+                                          ),
+                                          _c(
+                                            "span",
+                                            { staticClass: "text-danger" },
+                                            [_vm._v("eliminar")]
+                                          ),
+                                          _vm._v(" la materia "),
+                                          _c(
+                                            "span",
+                                            { staticClass: "text-danger" },
+                                            [_vm._v(_vm._s(materia.nombre))]
+                                          ),
+                                          _vm._v("?\n\t\t\t\t\t\t\t\t\t"),
+                                          _vm._m(3, true)
+                                        ]
+                                      )
+                                ],
+                                2
+                              )
+                            })
+                      ],
+                      2
+                    )
+                  ]
+                )
+              ]
+            )
+          : _c(
+              "div",
+              {
+                staticClass: "card text-center shadow-xl",
+                attrs: { id: "f_materia" }
+              },
+              [
+                _c("div", { staticClass: "card-header bg-info text-white" }, [
+                  _vm._v("Propiedades")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-body" }, [
+                  _c("div", { staticClass: "form-group row" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "col-sm-2 col-form-label",
+                        attrs: { for: "f_materia_nombre" }
+                      },
+                      [_vm._v("Nombre")]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-sm-10" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.materia.nombre,
+                            expression: "materia.nombre"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          name: "f_materia_nombre",
+                          placeholder: "Nombre",
+                          type: "text",
+                          "data-toggle": "tooltip",
+                          "data-placement": "right",
+                          title: "Requerido"
+                        },
+                        domProps: { value: _vm.materia.nombre },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.materia, "nombre", $event.target.value)
+                          }
+                        }
+                      })
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-footer text-muted" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary float-right",
+                      attrs: { disabled: _vm.ajax },
+                      on: { click: _vm.guardar_materia }
+                    },
+                    [
+                      _c("i", {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.ajax,
+                            expression: "ajax"
+                          }
+                        ],
+                        staticClass: "fas fa-spinner fa-pulse"
+                      }),
+                      _vm._v(
+                        " " +
+                          _vm._s(
+                            _vm.modo == _vm.modos.agregar
+                              ? "Agregar"
+                              : "Guardar"
+                          )
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-outline-dark float-right mr-2",
+                      on: { click: _vm.ver_lista }
+                    },
+                    [_vm._v("Cancelar")]
+                  )
+                ])
+              ]
+            )
+      ])
     ])
   ])
 }
@@ -20004,36 +20422,42 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", { staticClass: "thead-dark" }, [
       _c("tr", [
-        _c("th"),
-        _vm._v(" "),
-        _c("th", [_vm._v("nombre")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("acciones")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", { attrs: { width: "1%" } }, [
-      _c("i", { staticClass: "fas fa-book" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", { attrs: { width: "1%" } }, [
-      _c("div", { staticClass: "btn-group" }, [
-        _c("button", { staticClass: "btn btn-primary" }, [
-          _c("i", { staticClass: "far fa-eye" })
+        _c("th", { attrs: { width: "1%" } }, [
+          _c("i", { staticClass: "fas fa-book" })
         ]),
         _vm._v(" "),
-        _c("button", { staticClass: "btn btn-danger" }, [
-          _c("i", { staticClass: "far fa-trash-alt" })
+        _c("th", { staticClass: "text-center" }, [_vm._v("nombre")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center", attrs: { width: "5%" } }, [
+          _vm._v("acciones")
         ])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { staticClass: "text-center", attrs: { colspan: "3" } }, [
+      _c("div", { staticClass: "text-lg text-info" }, [
+        _c("i", { staticClass: "fas fa-spinner fa-pulse fa-lg" }),
+        _vm._v(" Cargando materias...\n\t\t\t\t\t\t\t\t\t")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("i", { staticClass: "fas fa-book" })])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("button", { staticClass: "btn btn-danger float-right" }, [
+      _c("i", { staticClass: "fas fa-trash-alt" }),
+      _vm._v(" Confirmar")
     ])
   }
 ]
