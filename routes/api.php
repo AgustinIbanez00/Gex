@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\MateriaController;
+use App\Http\Controllers\CursoController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,6 +21,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/materias', function(Request $request) {
-    return App\Models\Materia::all();
-});
+Route::get('/materias', [MateriaController::class, 'all']);
+Route::get('/materias/{id}', [MateriaController::class, 'show']);
+Route::get('/materias/{id}/cursos', [MateriaController::class, 'cursos']);
+Route::get('/materias/{id}/examenes', [MateriaController::class, 'examenes']);
+
+
+Route::get('/cursos', [CursoController::class, 'all']);
+Route::get('/cursos/{id}', [CursoController::class, 'show']);
+

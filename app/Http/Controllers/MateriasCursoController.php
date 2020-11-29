@@ -4,82 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\MateriasCursos;
 use Illuminate\Http\Request;
+use App\Models\Curso;
+use App\Models\Materia;
+
 
 class MateriasCursoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+
+    // GET CURSOS
+    public function show($cursoId)
     {
-        //
+        return response()->json(['cursoId' => $cursoId ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\MateriasCursos  $materiasCursos
-     * @return \Illuminate\Http\Response
-     */
-    public function show(MateriasCursos $materiasCursos)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\MateriasCursos  $materiasCursos
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(MateriasCursos $materiasCursos)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\MateriasCursos  $materiasCursos
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, MateriasCursos $materiasCursos)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\MateriasCursos  $materiasCursos
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(MateriasCursos $materiasCursos)
-    {
-        //
-    }
 }
