@@ -41,7 +41,7 @@ class MateriaController extends Controller
     public function store(Request $request)
     {
         if(empty($request->nombre)) return response()->json([
-            'data' => $curso,
+            'data' => $request,
             'error' => 'Es requerido el nombre de la materia.'
         ]);
 
