@@ -17,10 +17,6 @@ class MateriaController extends Controller
     	return view("materias.materias");
     }
 
-    public function all()
-    {
-        return response()->json(Materia::all());
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -41,7 +37,7 @@ class MateriaController extends Controller
     public function store(Request $request)
     {
         if(empty($request->nombre)) return response()->json([
-            'data' => $request,
+            'data' => null,
             'error' => 'Es requerido el nombre de la materia.'
         ]);
 
@@ -88,17 +84,17 @@ class MateriaController extends Controller
     public function update(Request $request, Materia $materia)
     {
         if(empty($request->nombre)) return response()->json([
-            'data' => $curso,
+            'data' => null,
             'error' => 'Es requerido el nombre de la materia.'
         ]);
 
         if(!is_numeric($request->estado)) return response()->json([
-            'data' => $curso,
+            'data' => null,
             'error' => 'El estado debe ser un valor entre 0 y 1.'
         ]);
 
         if($request->estado > 1 || $request->estado < 0) return response()->json([
-            'data' => $materia,
+            'data' => null,
             'error' => 'El estado debe ser un valor entre 0 y 1.'
         ]);
 
