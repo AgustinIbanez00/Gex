@@ -8,126 +8,50 @@ use Carbon\Carbon;
 
 class CursoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         return view("cursos.cursos");       
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function all()
     {
-        
+        return response()->json(Curso::all());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        $date = Carbon::now()->toDateTimeString();
+        $date = Carbon::now();
 
-        if($request->fecha > $date){
-            return response()->json([
-                'data' => $curso,
-                'error' => 'La fecha del curso no puede ser mayor a la fecha actual.'
-                ]);
-        }
+        if($request->fecha > $date)
+            return $this->Error("La fecha del curso no puede ser mayor a la fecha actual.");
 
-        
-        if($request->cuatrimestre > 2 || $request->cuatrimestre < 1) {
-            return response()->json([
-                'data' => $curso,
-                'error' => 'El valor del cuatrimestre es inválido.'
-            ]);
-        }
+        if($request->cuatrimestre > 2 || $request->cuatrimestre < 1) 
+            return $this->Error("El valor del cuatrimestre es inválido.");
 
-        if($request->ciclo_lectivo > now()->year){
-            return response()->json([
-                'data' => $curso,
-                'error' => 'El valor del ciclo lectivo es inválido.'
-            ]);
-        }
+        if($request->ciclo_lectivo > now()->year)
+            return $this->Error("El valor del ciclo lectivo es inválido.");
 
-        if($request->cant_alumnos <= 0){
-            return response()->json([
-                'data' => $curso,
-                'error' => 'No puede ingresar una cantidad de alumnos negativa.'
-            ]);
-        }
+        if($request->cant_alumnos <= 0)
+            return $this->Error("No puede ingresar una cantidad de alumnos negativa.");
 
         $curso = new Curso();
-        $curso->comision = $request->$comision;
+        $curso->comision = $request->comision;
         $curso->cuatrimestre = $request->cuatrimestre;
         $curso->ciclo_lectivo = $request->ciclo_lectivo;
         $curso->cant_alumnos = $request->cant_alumnos;
         $curso->save();
 
-        return response()->json([
-            'data' => $curso,
-            'error' => null
-        ]);
+        return $this->Ok($curso);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Curso  $curso
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Curso $curso)
+    public function show($id)
     {
-        //
+        
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Curso  $curso
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Curso $curso)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Curso  $curso
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Curso $curso)
-    {
-        $curso = Curso::find($curso->$id);
-        $curso->comision = $request->$comision;
-        $curso->cuatrimestre = $request->cuatrimestre;
-        $curso->ciclo_lectivo = $request->ciclo_lectivo;
-        $curso->cant_alumnos = $request->cant_alumnos;
-        $curso->save();
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Curso  $curso
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Curso $curso)
-    {
-        $curso = Curso::find($curso->$id);
-        $curso->delete();
+        //$curso = Curso::find($curso->id);
+        
     }
 }

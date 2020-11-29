@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Materia;
-use Error;
+use App\Models\MateriasCursos;
+use App\Models\Examen;
 use Illuminate\Http\Request;
 
 class MateriaController extends Controller
@@ -11,6 +12,21 @@ class MateriaController extends Controller
     public function index()
     {
         return view("materias.materias");
+    }
+
+    public function all()
+    {
+        return response()->json(Materia::all());
+    }
+
+    public function cursos($id)
+    {
+        return response()->json(MateriasCursos::where('materia_id', "=", $id)->get());
+    }
+
+    public function examenes($id)
+    {
+        return response()->json(Examen::where('materia_id', "=", $id)->get());
     }
 
     public function store(Request $request)
@@ -24,10 +40,7 @@ class MateriaController extends Controller
         $materia->estado = 1;
         $materia->save();
 
-        return response()->json([
-            'data' => $materia,
-            'error' => null
-        ]);
+        return $this->Ok($materia, "La materia se guardó correctamente.");
     }
 
     public function show($id)

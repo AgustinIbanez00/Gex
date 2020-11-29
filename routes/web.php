@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\ExamenController;
 use App\Http\Controllers\MateriaController;
-use App\Http\Controllers\MateriaCursoController;
+use App\Http\Controllers\MateriasCursoController;
 use App\Http\Controllers\MesaController;
 use App\Http\Controllers\MesasAlumnosController;
 use App\Http\Controllers\PreguntaController;
@@ -38,9 +38,8 @@ Route::resource('cursos', CursoController::class)->middleware('auth');
 
 Route::resource('examenes', ExamenController::class)->middleware('auth');
 
-Route::resource('materias', MateriaController::class)->middleware('auth');
-
-Route::resource('materiasCursos', MateriaCursoController::class)->middleware('auth');
+Route::resource('materias', MateriaController::class)->middleware('auth')->only([
+    'index', 'store', 'destroy']);
 
 Route::resource('mesas', MesaController::class)->middleware('auth');
 
