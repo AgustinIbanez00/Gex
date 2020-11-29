@@ -3,43 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Models\Materia;
+use Error;
 use Illuminate\Http\Request;
 
 class MateriaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
     	return view("materias.materias");
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         if(empty($request->nombre)) return response()->json([
             'data' => null,
             'error' => 'Es requerido el nombre de la materia.'
         ]);
+
+        if(Materia::where('nombre', $request->nombre) != null) {
+            return response()->json([
+                'data' => null,
+                'error' => "",
+                'mensaje' => "La materia ya existe."
+            ]);
+        }
 
         $materia = new Materia();
         $materia->nombre = $request->nombre;
@@ -52,80 +39,20 @@ class MateriaController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Materia  $materia
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Materia $materia)
+    public function show($id)
     {
-        //
+        $materia = Materia::find($id);
+
+        if(!isset($materia)) return $this->Error($materia, self::ERROR_DATABASE, "La materia no existe");
+        else return $this->Ok($materia);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Materia  $materia
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Materia $materia)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Materia  $materia
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Materia $materia)
-    {
-        if(empty($request->nombre)) return response()->json([
-            'data' => null,
-            'error' => 'Es requerido el nombre de la materia.'
-        ]);
-
-        if(!is_numeric($request->estado)) return response()->json([
-            'data' => null,
-            'error' => 'El estado debe ser un valor entre 0 y 1.'
-        ]);
-
-        if($request->estado > 1 || $request->estado < 0) return response()->json([
-            'data' => null,
-            'error' => 'El estado debe ser un valor entre 0 y 1.'
-        ]);
-
-
-        $materia->nombre = $request->nombre;
-        $materia->estado = $request->estado;
-
-        return response()->json([
-            'data' => $materia,
-            'error' => null
-        ]);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Materia  $materia
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Materia $materia)
     {
-        if(!isset($materia)) return response()->json([
-            'data' => $materia,
-            'error' => 'No se seleccionó una materia para eliminar.'
-        ]);
+        if(!isset($materia)) $this->Error(null, self::ERROR_DATABASE, "No se encontró la materia.");
 
         $materia->delete();
 
-        return response()->json([
-            'data' => $materia,
-            'error' => null
-        ]);
+        $this->Ok($materia, "La materia se eliminó correctamente.");
     }
 }
